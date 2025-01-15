@@ -1,0 +1,24 @@
+{
+  "testEnvironment": "node",
+  "testPathIgnorePatterns": ["/node_modules/"],
+  "testMatch": ["**/tests/**/*.spec.ts"],
+  "transform": {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        "tsconfig": "tsconfig.json",
+        "useESM": true
+      }
+    ]
+  },
+  "extensionsToTreatAsEsm": [".ts"],
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1"
+  },
+  "testTimeout": 60000,
+  "bail": true,
+  "maxConcurrency": 1,
+  "maxWorkers": 1,
+  "verbose": true,
+  "reporters": ["default", "jest-summary-reporter"]
+}
