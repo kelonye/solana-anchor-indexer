@@ -14,4 +14,12 @@ copy-files:
 build:	
 	anchor build
 
-.PHONY: test jest copy-files build
+db-push:
+	env-cmd -f .env.local tsx src/db/init-db.ts
+	env-cmd -f .env.local npx drizzle-kit push --force
+	env-cmd -f .env.local tsx src/db/reset-db.ts
+
+indexer:
+	env-cmd -f .env.local tsx src/scripts/indexer.ts
+
+.PHONY: test jest copy-files build db-push indexer

@@ -37,6 +37,7 @@ export type DecodedProgramParsedIxs = DecodedProgramPartiallyDecodedIx[];
 export type DecodedProgramPartiallyDecodedIx = anchor.Instruction & {
   namedAccounts: Record<string, anchor.web3.PublicKey>;
   remainingAccounts: anchor.web3.PublicKey[];
+  accounts: anchor.web3.PublicKey[];
   programId: string;
 };
 

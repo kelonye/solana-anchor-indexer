@@ -3,16 +3,17 @@ import * as anchor from '@coral-xyz/anchor';
 import NodeWallet from '@coral-xyz/anchor/dist/cjs/nodewallet';
 
 import { Example } from '@/assets/example-types';
-import { Indexer } from '@/indexer';
+import { Indexer } from '@/lib/indexer';
 import { db, disconnect } from '@/db';
 import * as schema from '@/db/schema';
-
-const COMMITMENT = 'confirmed';
+import { COMMITMENT, getProvider } from '@/lib/provider';
 
 describe('example', () => {
   const program = anchor.workspace.Example as anchor.Program<Example>;
   const payer = NodeWallet.local().payer;
-  const provider = getProvider(payer);
+  const provider = getProvider({
+    payer,
+  });
   let index: () => Promise<void>;
   const storePubKey = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from('store')],
@@ -122,20 +123,4 @@ async function completeAndSendTx({
     },
     COMMITMENT
   );
-}
-
-/**
- * Creates and configures an Anchor provider with specified commitment levels.
- */
-function getProvider(keypair: anchor.web3.Keypair) {
-  const provider = new anchor.AnchorProvider(
-    new anchor.web3.Connection(process.env.RPC_URL!, COMMITMENT),
-    new NodeWallet(keypair),
-    {
-      commitment: COMMITMENT,
-      preflightCommitment: COMMITMENT,
-    }
-  );
-  anchor.setProvider(provider);
-  return provider;
 }

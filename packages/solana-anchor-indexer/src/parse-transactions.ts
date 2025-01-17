@@ -172,6 +172,7 @@ export class ProcessTransactions extends BaseIndexer {
             data: decodedIx.data,
             namedAccounts,
             remainingAccounts,
+            accounts: accounts.map((a) => a.pubkey),
             programId: ix.programId,
           };
         }
